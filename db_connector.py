@@ -47,7 +47,7 @@ def create_table():
         )
         conn.autocommit(True)
         cursor = conn.cursor()
-        statementToExecute = f"CREATE TABLE `{schema_name}`.`users`(`user_id` INT NOT NULL,`user_name` VARCHAR(50) NOT NULL,`creation_date` VARCHAR(50) NOT NULL, PRIMARY KEY (`id`));"
+        statementToExecute = f"CREATE TABLE `{schema_name}`.`users`(`user_id` INT NOT NULL,`user_name` VARCHAR(50) NOT NULL,`creation_date` VARCHAR(50) NOT NULL, PRIMARY KEY (`user_id`));"
         cursor.execute(statementToExecute)
         cursor.close()
         conn.close()
