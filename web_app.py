@@ -34,7 +34,7 @@ def root():
 def getUserData(user_id):
     uName = db.get_user_data(user_id)
     if uName == None:
-        return f"<H1 id='user'>No such user: {user_id}</H1>"
+        return f"<H1 id='error'>No such user: {user_id}</H1>"
     else:
         return f"<H1 id='user'>{uName}</H1>"
 
