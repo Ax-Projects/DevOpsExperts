@@ -5,7 +5,7 @@ from selenium.webdriver.edge.service import Service
 driver = webdriver.Edge(
     service=Service("C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\msedgedriver")
 )
-url = "http://localhost:5001/users/get_user_data/4"
+url = "http://localhost:5001/users/get_user_data/3"
 driver.get(url)
 try:
     user_element = driver.find_element(By.ID, value="user")
