@@ -1,17 +1,7 @@
-# import requests
 from flask import Flask, request
 import db_connector as db
 
-
-# res = requests.post("http://127.0.0.1:5000/users/1", json={"user_name": "Orr Amsalem"})
-# if res.ok:
-#     print(res.json())
-
-
 app = Flask(__name__)
-
-# local users storage
-users: dict = {}
 
 
 @app.route("/", methods=["GET"])
@@ -37,7 +27,7 @@ def user(user_id):
     elif request.method == "POST":
         # getting the json data payload from request
         request_data = request.json
-        # Checking if user_id exists in users dictionary
+        # Checking if user_id exists in the DB
         userData = db.get_user_data(user_id)
         if userData != None:
             return {"status": "error", "reason": "ID already exists"}, 500
@@ -53,24 +43,32 @@ def user(user_id):
     elif request.method == "PUT":
         # getting the json data payload from request
         request_data = request.json
-        # Checking if user_id exists in users dictionary
-        if users.get(user_id):
-            users[user_id] = request_data.get("user_name")
-            return {"status": "OK", "user_updated": users[user_id]}, 200
-        else:
-            # treating request_data as a dictionary to get a specific value from key
+        # Checking if user_id exists in the DB
+        userData = db.get_user_data(user_id)
+        if userData == None:
             return {"status": "error", "reason": "No such ID"}, 500
+        elif userData != None:
+            newUserName = request_data.get("user_name")
+            status = db.update_user(user_id=userData, user_name=newUserName)
+            if status == True:
+                return {"status": "OK", "user_updated": userData}, 200
+            else:
+                return {f"sql error": status}, 400
+        else:
+            return {"status": "error", "reason": status}, 400
 
     elif request.method == "DELETE":
         # Error catching in DELETE request for user name by user_id
         try:
-            # Checking if user_id exists in users dictionary
-            if users.get(user_id):
-                users.pop(user_id)
-                return {"status": "OK", "user_deleted": user_id}, 200
-            else:
+            userData = db.get_user_data(user_id)
+            if userData == None:
                 return {"status": "error", "reason": "no such id"}, 500
-        # Catching KeyError type error and printing to terminal
+            else:
+                status = db.delete_user(user_id)
+                if status == True:
+                    return {"status": "OK", "user_deleted": user_id}, 200
+                else:
+                    return {"sql error": status}, 400
         except Exception as e:
             print(f"Error in DELTE method: {e}")
 
