@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('start-backend') {
       steps {
-        withPythonEnv(pythonInstallation: 'C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\.venv\\Scripts\\python.exe') {
+        withPythonEnv(pythonInstallation: '.vevn') {
           powershell(script: 'python rest_api.py', returnStatus: true, returnStdout: true)
         }
 
