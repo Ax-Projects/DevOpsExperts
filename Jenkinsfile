@@ -3,15 +3,24 @@ pipeline {
     node {
       label 'laptop'
     }
-
+  }
+  environment {
+    python = 'C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\.venv\\Scripts\\python.exe'
   }
   stages {
     stage('start-backend') {
       steps {
-        withPythonEnv(pythonInstallation: 'vevn') {
-          powershell(script: 'python rest_api.py', returnStatus: true, returnStdout: true)
+        withPythonEnv("venv"){
+            bat(script: 'start /min python rest_api.py', returnStdout: true, returnStatus: true)
         }
+      }
+    }
 
+    stage('start-front') {
+      steps {
+        withPythonEnv("venv"){
+            bat(script: 'python web_app.py', returnStatus: true, returnStdout: true)
+        }
       }
     }
 
@@ -44,9 +53,5 @@ pipeline {
         bat 'python clean_environment.py'
       }
     }
-
-  }
-  environment {
-    python = 'C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\.venv\\Scripts\\python.exe'
   }
 }
