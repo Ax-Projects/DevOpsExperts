@@ -1,42 +1,9 @@
 from flask import Flask, request
 import db_connector as db
+import os
+import signal
 
 app = Flask(__name__)
-
-##### The following functions are an attempt at exportring the routes functionionality          #####
-##### To make the functionality available for other modules without starting a Flask web-server #####
-
-# def get_user(uid: str):
-#     # Checking if user_id exists in the DB table
-#     userData = db.get_user_data(user_id=uid)
-#     if userData != None:
-#         return {"status": "OK", "user_name": userData}, 200
-#     elif userData == None:
-#         return {"status": "error", "reason": "no such id"}, 500
-
-
-# def create_user(uid: str, jsonData: dict):
-#     # Checking if user_id exists in the DB
-#     userData = db.get_user_data(uid)
-#     # print("UserData Variable:\n", userData)
-#     # Checking if JSON payload contains user_name
-#     try:
-#         user_nm = jsonData.get("user_name")
-#         # print("user_nm variable:\n", user_nm)
-#     except:
-#         user_nm = None
-#     if userData != None:
-#         return {"status": "error", "reason": "ID already exists"}, 500
-#     elif user_nm != None:
-#         # treating request_data as a dictionary to get a specific value from key
-#         # Using DB method to create a new user
-#         status = db.create_user(user_id=uid, user_name=str(user_nm))
-#         # Checking DB method result
-#         if status == True:
-#             return {"status": "OK", "user_added": user_nm}, 200
-#         else:
-#             print(status)
-#             return {f"error": status}, 400
 
 
 @app.route("/", methods=["GET"])
@@ -122,6 +89,12 @@ def user(user_id):
                     return {"sql error": status}, 400
         except Exception as e:
             print(f"Error in DELETE method:\n {e}")
+
+
+@app.route("/stop_server")
+def stop_server():
+    os.kill(os.getpid(), signal.CTRL_C_EVENT)
+    return "Server stopped"
 
 
 if __name__ == "__main__":

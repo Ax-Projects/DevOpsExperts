@@ -1,6 +1,8 @@
 from flask import Flask, request
 import rest_api
 import db_connector as db
+import os
+import signal
 
 app = Flask(__name__)
 
@@ -53,6 +55,13 @@ def getUserData(user_id):
 # def drop_db():
 #     db.drop_table()
 #     return "Table deleted", 200
+
+
+@app.route("/stop_server")
+def stop_server():
+    os.kill(os.getpid(), signal.CTRL_C_EVENT)
+    return "Server stopped"
+
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", debug=True, port=5001)
