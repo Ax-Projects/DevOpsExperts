@@ -2,7 +2,11 @@ pipeline {
   agent {
     node {
       label 'laptop'
+
     }
+  environment {
+    python = 'C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\.venv\\Scripts\\python.exe'
+  }
 
   }
   stages {
@@ -10,19 +14,19 @@ pipeline {
       parallel {
         stage('start-backend') {
           steps {
-            bat(script: 'start /min python rest_api.py', returnStdout: true, returnStatus: true)
+            withPythonEnv("C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\.venv\\Scripts\\python.exe"){
+                bat(script: 'start /min python rest_api.py', returnStdout: true, returnStatus: true)
+            }
           }
         }
 
         stage('start-front') {
-          environment {
-            python = 'C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\.venv\\Scripts\\python.exe'
-          }
           steps {
-            pybat(script: 'web_app.py', returnStatus: true, returnStdout: true)
+            withPythonEnv("C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\.venv\\Scripts\\python.exe"){
+                pybat(script: 'web_app.py', returnStatus: true, returnStdout: true)
+            }
           }
         }
-
       }
     }
 
@@ -55,9 +59,5 @@ pipeline {
         bat 'python clean_environment.py'
       }
     }
-
-  }
-  environment {
-    python = 'C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\.venv\\Scripts\\python.exe'
   }
 }
