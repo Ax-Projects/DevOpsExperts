@@ -8,19 +8,13 @@ pipeline {
   stages {
     stage('start-backend') {
       steps {
-        withPythonEnv(pythonInstallation: 'C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\.venv\\Scripts') {
-          powershell(script: 'python rest_api.py', returnStdout: true, returnStatus: true)
-        }
-
+        powershell(script: 'python rest_api.py', returnStdout: true, returnStatus: true)
       }
     }
 
     stage('start-front') {
       steps {
-        withPythonEnv(pythonInstallation: 'venv') {
-          bat(script: 'python web_app.py', returnStatus: true, returnStdout: true)
-        }
-
+        bat(script: 'start /min python web_app.py', returnStatus: true, returnStdout: true)
       }
     }
 
