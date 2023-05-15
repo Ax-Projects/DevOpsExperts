@@ -10,6 +10,15 @@ def root():
     return "web-server is online", 200
 
 
+@app.route("/help", methods=["GET"])
+def help():
+    with open(
+        "C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\Project-Part1\\web_app.html", "r"
+    ) as o:
+        content = o.read()
+        return content, 200
+
+
 ##### a test route for getting data using Rest_API Module #####
 
 # @app.route("/users/get_user_data/<user_id>", methods=["GET"])
@@ -45,5 +54,5 @@ def getUserData(user_id):
 #     db.drop_table()
 #     return "Table deleted", 200
 
-
-app.run(host="127.0.0.1", debug=True, port=5001)
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", debug=True, port=5001)
