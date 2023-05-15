@@ -2,12 +2,10 @@ pipeline {
   agent {
     node {
       label 'laptop'
-
     }
+  }
   environment {
     python = 'C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\.venv\\Scripts\\python.exe'
-  }
-
   }
   stages {
     stage('start-backend') {
