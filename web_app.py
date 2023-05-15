@@ -1,10 +1,12 @@
 from flask import Flask, request
-import rest_api
 import db_connector as db
 import os
 import signal
 
 app = Flask(__name__)
+htmlHelpFile = (
+    "C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\Project-Part1\\web_app.html"
+)
 
 
 @app.route("/", methods=["GET"])
@@ -12,30 +14,12 @@ def root():
     return "web-server is online", 200
 
 
+# Testing assignment extra tasks for generating documentation html files
 @app.route("/help", methods=["GET"])
 def help():
-    with open(
-        "C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\Project-Part1\\web_app.html", "r"
-    ) as o:
+    with open(htmlHelpFile, "r") as o:
         content = o.read()
         return content, 200
-
-
-##### a test route for getting data using Rest_API Module #####
-
-# @app.route("/users/get_user_data/<user_id>", methods=["GET"])
-# def get_user_data(user_id):
-#     uName = rest_api.get_user(user_id)[0].get("user_name")
-#     if uName == None:
-#         return f"<H1 id='error'> No such user {user_id}</H1>"
-#     elif uName != None:
-#         return f"<H1 id='user'>{uName}</H1>"
-
-
-# app.run(host="127.0.0.1", debug=True, port=5001)
-
-
-#############################
 
 
 ########## Getting data directly from DB ##########

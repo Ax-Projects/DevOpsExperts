@@ -1,9 +1,7 @@
 import pymysql
 import datetime
 
-# schema_name = "sql7615057"
 schema_name = "devopsdb"
-
 
 # These are private variables for ease of update if the database connection changes.
 # I have not found a way to use a pymysql.connect function without calling it directly in each of my functions.

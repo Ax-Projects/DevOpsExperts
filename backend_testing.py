@@ -8,6 +8,13 @@ userID = "5"
 url = f"http://localhost:5000/users/{userID}"
 jsonBody = {"user_name": f"{userName}"}
 
+# Database connection settings
+_host = "devopsexperts-devdb.cocqzivxlu19.eu-north-1.rds.amazonaws.com"
+_user = "devopsroot"
+_password = "r83nHqs7wew9Gycr"
+_db = "devopsdb"
+_port = 3306
+
 # POST request test
 post = requests.post(url=url, json=jsonBody)
 if post.status_code == 200:
@@ -35,14 +42,14 @@ else:
 # Check if the user exists in the database directly
 try:
     conn = pymysql.connect(
-        host="sql7.freemysqlhosting.net",
-        user="sql7615057",
-        password="nUYs7WA6Mx",
-        db="sql7615057",
-        port=3306,
+        host=_host,
+        user=_user,
+        password=_password,
+        db=_db,
+        port=_port,
     )
     cursor = conn.cursor()
-    cursor.execute(f"SELECT user_name FROM sql7615057.users WHERE user_id = {userID};")
+    cursor.execute(f"SELECT user_name FROM {_db}.users WHERE user_id = {userID};")
     output = cursor.fetchone()
     cursor.close()
     conn.close()
