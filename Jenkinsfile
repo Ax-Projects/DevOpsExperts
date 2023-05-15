@@ -7,14 +7,22 @@ pipeline {
   }
   stages {
     stage('start-backend') {
-      steps {
-        bat 'start /min python rest_api.py'
-      }
-    }
+      parallel {
+        stage('start-backend') {
+          steps {
+            bat(script: 'start /min python rest_api.py', returnStdout: true, returnStatus: true)
+          }
+        }
 
-    stage('start-frontend') {
-      steps {
-        bat 'start /min python web_app.py'
+        stage('start-front') {
+          environment {
+            python = 'C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\.venv\\Scripts\\python.exe'
+          }
+          steps {
+            bat(script: 'start python web_app.py', returnStdout: true, returnStatus: true)
+          }
+        }
+
       }
     }
 
