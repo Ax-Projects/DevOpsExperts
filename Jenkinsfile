@@ -6,12 +6,6 @@ pipeline {
 
   }
   stages {
-    stage('clone-repo') {
-      steps {
-        git(url: 'https://github.com/Ax-Projects/DevOpsExperts.git', branch: 'jenkins-pipeline')
-      }
-    }
-
     stage('start-backend') {
       steps {
         bat 'start /min python rest_api.py'
