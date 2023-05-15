@@ -3,7 +3,7 @@ pipeline {
     stages{
         stage('clone-repo'){
             steps{
-            git 'https://github.com/Ax-Projects/DevOpsExperts.git'
+            git branch: "jenkins-pipeline", url: "https://github.com/Ax-Projects/DevOpsExperts.git"
             }    
         }
         stage('start-backend'){
