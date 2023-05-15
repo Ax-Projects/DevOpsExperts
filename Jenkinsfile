@@ -19,7 +19,7 @@ pipeline {
             python = 'C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\.venv\\Scripts\\python.exe'
           }
           steps {
-            bat(script: 'start python web_app.py', returnStdout: true, returnStatus: true)
+            pybat(script: 'web_app.py', returnStatus: true, returnStdout: true)
           }
         }
 
