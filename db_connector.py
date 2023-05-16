@@ -24,7 +24,7 @@ def check_table_exists():
         conn.autocommit(True)
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT * FROM information_schema.tables WHERE table_schema = '{db}' AND table_name = 'users' LIMIT 1;"
+            f"SELECT * FROM information_schema.tables WHERE table_schema = '{db}' AND table_name = 'users' LIMIT 1;"
         )
         if (
             "users" in cursor.fetchone()
