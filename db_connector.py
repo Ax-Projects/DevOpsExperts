@@ -1,28 +1,34 @@
 import pymysql
 import datetime
 
-schema_name = "sql7615057"
+schema_name = "devopsdb"
+
+# These are private variables for ease of update if the database connection changes.
+# I have not found a way to use a pymysql.connect function without calling it directly in each of my functions.
+_host = "devopsexperts-devdb.cocqzivxlu19.eu-north-1.rds.amazonaws.com"
+_user = "devopsroot"
+_password = "r83nHqs7wew9Gycr"
+_db = "devopsdb"
+_port = 3306
 
 
 def check_table_exists():
     try:
         conn = pymysql.connect(
-            host="sql7.freemysqlhosting.net",
-            user="sql7615057",
-            password="nUYs7WA6Mx",
-            db="sql7615057",
-            port=3306,
+            host=_host,
+            user=_user,
+            password=_password,
+            db=_db,
+            port=_port,
         )
         conn.autocommit(True)
         cursor = conn.cursor()
         cursor.execute(
-            """
-        SELECT COUNT(*)
-        FROM information_schema.tables
-        WHERE table_name = 'users'
-        """
+            "SELECT * FROM information_schema.tables WHERE table_schema = 'devopsdb' AND table_name = 'users' LIMIT 1;"
         )
-        if cursor.fetchone()[0] == 1:
+        if (
+            "users" in cursor.fetchone()
+        ):  # This is a dumb workaround to check if the table exists by checking the cursor returned values
             cursor.close()
             conn.close()
             return True
@@ -39,11 +45,11 @@ def check_table_exists():
 def create_table():
     try:
         conn = pymysql.connect(
-            host="sql7.freemysqlhosting.net",
-            user="sql7615057",
-            password="nUYs7WA6Mx",
-            db="sql7615057",
-            port=3306,
+            host=_host,
+            user=_user,
+            password=_password,
+            db=_db,
+            port=_port,
         )
         conn.autocommit(True)
         cursor = conn.cursor()
@@ -60,11 +66,11 @@ def create_table():
 # Getting users table from the Database
 def get_users():
     conn = pymysql.connect(
-        host="sql7.freemysqlhosting.net",
-        user="sql7615057",
-        password="nUYs7WA6Mx",
-        db="sql7615057",
-        port=3306,
+        host=_host,
+        user=_user,
+        password=_password,
+        db=_db,
+        port=_port,
     )
     cursor = conn.cursor()
     cursor.execute(f"SELECT * FROM {schema_name}.users;")
@@ -77,11 +83,11 @@ def get_users():
 def get_user_data(user_id: str):
     try:
         conn = pymysql.connect(
-            host="sql7.freemysqlhosting.net",
-            user="sql7615057",
-            password="nUYs7WA6Mx",
-            db="sql7615057",
-            port=3306,
+            host=_host,
+            user=_user,
+            password=_password,
+            db=_db,
+            port=_port,
         )
         conn.autocommit(True)
         cursor = conn.cursor()
@@ -103,11 +109,11 @@ def create_user(user_id: str, user_name: str):
     timenow = str(datetime.datetime.now()).split(".")[0]
     try:
         conn = pymysql.connect(
-            host="sql7.freemysqlhosting.net",
-            user="sql7615057",
-            password="nUYs7WA6Mx",
-            db="sql7615057",
-            port=3306,
+            host=_host,
+            user=_user,
+            password=_password,
+            db=_db,
+            port=_port,
         )
         conn.autocommit(True)
         cursor = conn.cursor()
@@ -125,11 +131,11 @@ def create_user(user_id: str, user_name: str):
 def update_user(user_id: str, user_name: str):
     try:
         conn = pymysql.connect(
-            host="sql7.freemysqlhosting.net",
-            user="sql7615057",
-            password="nUYs7WA6Mx",
-            db="sql7615057",
-            port=3306,
+            host=_host,
+            user=_user,
+            password=_password,
+            db=_db,
+            port=_port,
         )
         conn.autocommit(True)
         cursor = conn.cursor()
@@ -147,11 +153,11 @@ def update_user(user_id: str, user_name: str):
 def delete_user(user_id: str):
     try:
         conn = pymysql.connect(
-            host="sql7.freemysqlhosting.net",
-            user="sql7615057",
-            password="nUYs7WA6Mx",
-            db="sql7615057",
-            port=3306,
+            host=_host,
+            user=_user,
+            password=_password,
+            db=_db,
+            port=_port,
         )
         conn.autocommit(True)
         cursor = conn.cursor()
@@ -167,11 +173,11 @@ def delete_user(user_id: str):
 def drop_table():
     try:
         conn = pymysql.connect(
-            host="sql7.freemysqlhosting.net",
-            user="sql7615057",
-            password="nUYs7WA6Mx",
-            db="sql7615057",
-            port=3306,
+            host=_host,
+            user=_user,
+            password=_password,
+            db=_db,
+            port=_port,
         )
         conn.autocommit(True)
         cursor = conn.cursor()

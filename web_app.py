@@ -1,8 +1,12 @@
 from flask import Flask, request
-import rest_api
 import db_connector as db
+import os
+import signal
 
 app = Flask(__name__)
+htmlHelpFile = (
+    "C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\Project-Part1\\web_app.html"
+)
 
 
 @app.route("/", methods=["GET"])
@@ -10,21 +14,12 @@ def root():
     return "web-server is online", 200
 
 
-##### a test route for getting data using Rest_API Module #####
-
-# @app.route("/users/get_user_data/<user_id>", methods=["GET"])
-# def get_user_data(user_id):
-#     uName = rest_api.get_user(user_id)[0].get("user_name")
-#     if uName == None:
-#         return f"<H1 id='error'> No such user {user_id}</H1>"
-#     elif uName != None:
-#         return f"<H1 id='user'>{uName}</H1>"
-
-
-# app.run(host="127.0.0.1", debug=True, port=5001)
-
-
-#############################
+# Testing assignment extra tasks for generating documentation html files
+@app.route("/help", methods=["GET"])
+def help():
+    with open(htmlHelpFile, "r") as o:
+        content = o.read()
+        return content, 200
 
 
 ########## Getting data directly from DB ##########
@@ -46,4 +41,11 @@ def getUserData(user_id):
 #     return "Table deleted", 200
 
 
-app.run(host="127.0.0.1", debug=True, port=5001)
+@app.route("/stop_server")
+def stop_server():
+    os.kill(os.getpid(), signal.CTRL_C_EVENT)
+    return "Server stopped"
+
+
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", debug=True, port=5001)

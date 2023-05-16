@@ -2,9 +2,10 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.service import Service
 
-driver = webdriver.Edge(
-    service=Service("C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\msedgedriver")
-)
+# Change this to your Edge driver path
+driverLocation = "C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\msedgedriver"
+
+driver = webdriver.Edge(service=Service(driverLocation))
 url = "http://localhost:5001/users/get_user_data/3"
 driver.get(url)
 try:
