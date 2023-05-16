@@ -3,7 +3,6 @@ pipeline {
     node {
       label 'laptop'
     }
-
   }
   stages {
     stage('start-backend') {
@@ -20,7 +19,7 @@ pipeline {
 
     stage('clean-DB') {
       steps {
-        bat 'python clean_db.py'
+        bat(script: 'start /min python clean_db.py', returnStatus: true, returnStdout: true)
       }
     }
 
@@ -47,9 +46,5 @@ pipeline {
         bat 'python clean_environment.py'
       }
     }
-
-  }
-  environment {
-    python = 'C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\.venv\\Scripts\\python.exe'
   }
 }
