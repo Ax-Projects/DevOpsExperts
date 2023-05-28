@@ -12,15 +12,19 @@ _db = "devopsdb"
 _port = 3306
 
 
+def db():
+    pymysql.connect(
+        host=_host,
+        user=_user,
+        password=_password,
+        db=_db,
+        port=_port,
+    )
+
+
 def check_table_exists():
     try:
-        conn = pymysql.connect(
-            host=_host,
-            user=_user,
-            password=_password,
-            db=_db,
-            port=_port,
-        )
+        conn = db()
         conn.autocommit(True)
         cursor = conn.cursor()
         cursor.execute(
@@ -44,13 +48,7 @@ def check_table_exists():
 # Inserting data into table
 def create_table():
     try:
-        conn = pymysql.connect(
-            host=_host,
-            user=_user,
-            password=_password,
-            db=_db,
-            port=_port,
-        )
+        conn = db()
         conn.autocommit(True)
         cursor = conn.cursor()
         statementToExecute = f"CREATE TABLE `{schema_name}`.`users`(`user_id` INT NOT NULL,`user_name` VARCHAR(50) NOT NULL,`creation_date` VARCHAR(50) NOT NULL, PRIMARY KEY (`user_id`));"
@@ -65,13 +63,7 @@ def create_table():
 
 # Getting users table from the Database
 def get_users():
-    conn = pymysql.connect(
-        host=_host,
-        user=_user,
-        password=_password,
-        db=_db,
-        port=_port,
-    )
+    conn = db()
     cursor = conn.cursor()
     cursor.execute(f"SELECT * FROM {schema_name}.users;")
     output = cursor.fetchall()
@@ -82,13 +74,7 @@ def get_users():
 
 def get_user_data(user_id: str):
     try:
-        conn = pymysql.connect(
-            host=_host,
-            user=_user,
-            password=_password,
-            db=_db,
-            port=_port,
-        )
+        conn = db()
         conn.autocommit(True)
         cursor = conn.cursor()
         cursor.execute(
@@ -108,13 +94,7 @@ def get_user_data(user_id: str):
 def create_user(user_id: str, user_name: str):
     timenow = str(datetime.datetime.now()).split(".")[0]
     try:
-        conn = pymysql.connect(
-            host=_host,
-            user=_user,
-            password=_password,
-            db=_db,
-            port=_port,
-        )
+        conn = db()
         conn.autocommit(True)
         cursor = conn.cursor()
         cursor.execute(
@@ -130,13 +110,7 @@ def create_user(user_id: str, user_name: str):
 # Updating data in the table
 def update_user(user_id: str, user_name: str):
     try:
-        conn = pymysql.connect(
-            host=_host,
-            user=_user,
-            password=_password,
-            db=_db,
-            port=_port,
-        )
+        conn = db()
         conn.autocommit(True)
         cursor = conn.cursor()
         cursor.execute(
@@ -152,13 +126,7 @@ def update_user(user_id: str, user_name: str):
 # Deleting the data from the table
 def delete_user(user_id: str):
     try:
-        conn = pymysql.connect(
-            host=_host,
-            user=_user,
-            password=_password,
-            db=_db,
-            port=_port,
-        )
+        conn = db()
         conn.autocommit(True)
         cursor = conn.cursor()
         cursor.execute(f"DELETE FROM {schema_name}.users WHERE user_id = '{user_id}'")
@@ -172,13 +140,7 @@ def delete_user(user_id: str):
 # Function for dropping the table
 def drop_table():
     try:
-        conn = pymysql.connect(
-            host=_host,
-            user=_user,
-            password=_password,
-            db=_db,
-            port=_port,
-        )
+        conn = db()
         conn.autocommit(True)
         cursor = conn.cursor()
         cursor.execute(f"DROP TABLE `{schema_name}`.`users`;")
