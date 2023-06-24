@@ -5,7 +5,7 @@ pipeline {
     }
   }
   environment {
-    registry = amsiman/devopsproject
+    registry = 'amsiman/devopsproject'
     registryCredential = 'dockerhub-login'
     dockerimage = ''
   }
