@@ -1,15 +1,16 @@
 import pymysql
 import datetime
+import os
 
-schema_name = "devopsdb"
+schema_name = os.environ["SCHEMA"]
 
 # These are private variables for ease of update if the database connection changes.
 # I have not found a way to use a pymysql.connect function without calling it directly in each of my functions.
-_host = "devopsexperts-devdb.cocqzivxlu19.eu-north-1.rds.amazonaws.com"
-_user = "devopsroot"
-_password = "r83nHqs7wew9Gycr"
-_db = "devopsdb"
-_port = 3306
+_host = os.environ["DBHOST"]
+_user = os.environ["DBUSER"]
+_password = os.environ["DBPASSWORD"]
+_db = os.environ["DB"]
+_port = os.environ["PORT"]
 
 
 def db():
