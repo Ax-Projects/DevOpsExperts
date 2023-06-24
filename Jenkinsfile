@@ -82,6 +82,7 @@ pipeline {
       steps {
         bat 'docker-compose stop restapi'
         bat 'docker-compose down'
+        powershell 'Remove-Item -Recurse -Force .venv'
       }
     }
   }
