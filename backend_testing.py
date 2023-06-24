@@ -17,6 +17,7 @@ elif post.status_code == 500:
     print("User ID already in use")
 else:
     print("POST request failed")
+    exit(1)
 
 # Test successful user creation by querying the DB
 get = requests.get(url=url)
@@ -30,3 +31,4 @@ elif get.status_code == 500:
     print("User validation failed. ID does not exist in the database")
 else:
     print("GET request failed")
+    exit(1)
