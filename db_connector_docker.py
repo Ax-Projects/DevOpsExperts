@@ -2,28 +2,27 @@ import pymysql
 import datetime
 import os
 
+schema_name = os.environ["SCHEMA"]
 
-DBHOST = "mysql"
-DBUSER = "devopsroot"
-DBPASSWORD = "r83nHqs7wew9Gycr"
-DB = "devopsdb"
-SCHEMA = "devopsdb"
-PORT = 3306
+# These are private variables for ease of update if the database connection changes.
+# I have not found a way to use a pymysql.connect function without calling it directly in each of my functions.
+_host = os.environ["DBHOST"]
+_user = os.environ["DBUSER"]
+_password = os.environ["DBPASSWORD"]
+_db = os.environ["DB"]
+_port = os.environ["PORT"]
 
 
 def db():
     conn = pymysql.connect(
-        host=DBHOST,
-        user=DBUSER,
-        password=DBPASSWORD,
-        db=DB,
+        host=_host,
+        user=_user,
+        password=_password,
+        db=_db,
         # port=_port,
     )
     conn.autocommit(True)
     return conn
-
-
-schema_name = SCHEMA
 
 
 def check_table_exists():
