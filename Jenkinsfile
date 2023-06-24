@@ -28,9 +28,12 @@ pipeline {
     }
     stage('start-backend') {
       steps {
-        powershell(script: '.venv\\Scripts\\Activate.ps1', returnStdout: true, returnStatus: true)
-        powershell(script: 'pip install -r requirements.txt', returnStdout: true, returnStatus: true)
-        powershell(script: 'python rest_api.py', returnStdout: true, returnStatus: true)
+        bat(script: '.venv\\Scripts\\Activate.ps1', returnStatus: true, returnStdout: true)
+        bat(script: 'pip install -r requirements.txt', returnStatus: true, returnStdout: true)
+        // powershell(script: '.venv\\Scripts\\Activate.ps1', returnStdout: true, returnStatus: true)
+        // powershell(script: 'pip install -r requirements.txt', returnStdout: true, returnStatus: true)
+        // powershell(script: 'python rest_api.py', returnStdout: true, returnStatus: true)
+        bat(script: 'start /min python rest_api.py', returnStatus: true, returnStdout: true)
       }
     }
 
