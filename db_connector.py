@@ -28,13 +28,12 @@ def db():
 def check_table_exists():
     try:
         conn = db()
-        # conn.autocommit(True)
         cursor = conn.cursor()
         cursor.execute(
             f"SELECT * FROM information_schema.tables WHERE table_schema = '{schema_name}' AND table_name = 'users' LIMIT 1;"
         )
         if (
-            "users" in cursor.fetchone()
+            cursor.fetchone()
         ):  # This is a dumb workaround to check if the table exists by checking the cursor returned values
             cursor.close()
             conn.close()
@@ -60,7 +59,9 @@ def create_table():
         return True
     except pymysql.Error as e:
         # print(e)
-        return e
+        cursor.close()
+        conn.close()
+        return {e}
 
 
 # Getting users table from the Database
@@ -69,9 +70,14 @@ def get_users():
     cursor = conn.cursor()
     cursor.execute(f"SELECT * FROM {schema_name}.users;")
     output = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return output
+    if output:
+        cursor.close()
+        conn.close()
+        return output
+    else:
+        cursor.close()
+        conn.close()
+        return None
 
 
 def get_user_data(user_id: str):
@@ -82,13 +88,18 @@ def get_user_data(user_id: str):
             f"SELECT user_name FROM {schema_name}.users WHERE user_id = {user_id};"
         )
         output = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        return output[0]
+        if output:
+            cursor.close()
+            conn.close()
+            return output[0]
+        else:
+            cursor.close()
+            conn.close()
+            return None
     except pymysql.Error as e:
         cursor.close()
         conn.close()
-        return e
+        return {e}
     except TypeError as e:
         cursor.close()
         conn.close()
@@ -108,7 +119,7 @@ def create_user(user_id: str, user_name: str):
         conn.close()
         return True
     except pymysql.Error as e:
-        return e
+        return {e}
 
 
 # Updating data in the table
@@ -123,7 +134,7 @@ def update_user(user_id: str, user_name: str):
         conn.close()
         return True
     except pymysql.Error as e:
-        return e
+        return {e}
 
 
 # Deleting the data from the table
@@ -136,7 +147,7 @@ def delete_user(user_id: str):
         conn.close()
         return True
     except pymysql.Error as e:
-        return e
+        return {e}
 
 
 # Function for dropping the table
@@ -149,4 +160,4 @@ def drop_table():
         conn.close()
         return True
     except pymysql.Error as e:
-        return e
+        return {e}
