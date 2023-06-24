@@ -25,6 +25,7 @@ def user(user_id):
         # Catching Exception type error and printing to terminal
         except Exception as e:
             print(f"Error in GET method:\n {e}")
+            return {"Error from backend: ", e}, 500
 
     elif request.method == "POST":
         # Error catching for POST method
