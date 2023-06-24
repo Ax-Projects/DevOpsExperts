@@ -11,6 +11,11 @@ pipeline {
   }
   stages {
     // add stage to start mysql container
+    stage('pull repo') {
+      steps {
+        git branch: 'jenking-pipeline', url: 'https://github.com/Ax-Projects/DevOpsExperts.git'
+      }
+    }
     stage('start-db') {
       steps {
         powershell(script: 'docker-compose up -d mysql', returnStdout: true, returnStatus: true)
