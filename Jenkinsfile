@@ -34,7 +34,7 @@ pipeline {
       }
     }
 
-    stage('stop-servers') {
+    stage('stop-restapi') {
       steps {
         bat 'python clean_environment.py'
       }
