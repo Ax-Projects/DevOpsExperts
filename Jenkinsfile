@@ -28,7 +28,7 @@ pipeline {
     }
     stage('start-backend') {
       steps {
-        bat(script: '.venv\\Scripts\\Activate.ps1', returnStatus: true, returnStdout: true)
+        bat(script: '.venv\\Scripts\\Activate.bat', returnStatus: true, returnStdout: true)
         bat(script: 'pip install -r requirements.txt', returnStatus: true, returnStdout: true)
         // powershell(script: '.venv\\Scripts\\Activate.ps1', returnStdout: true, returnStatus: true)
         // powershell(script: 'pip install -r requirements.txt', returnStdout: true, returnStatus: true)
@@ -39,7 +39,7 @@ pipeline {
 
     stage('clean-DB') {
       steps {
-        bat(script: 'start /min python clean_db.py', returnStatus: true, returnStdout: true)
+        bat(script: 'python clean_db.py', returnStatus: true, returnStdout: true)
       }
     }
 
