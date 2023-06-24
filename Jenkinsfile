@@ -16,6 +16,11 @@ pipeline {
         git branch: 'jenking-pipeline', url: 'https://github.com/Ax-Projects/DevOpsExperts.git'
       }
     }
+    stage('create-venv') {
+      steps {
+        powershell(script: 'python -m venv .venv', returnStdout: true, returnStatus: true)
+      }
+    }
     stage('start-db') {
       steps {
         powershell(script: 'docker-compose up -d mysql', returnStdout: true, returnStatus: true)
@@ -23,6 +28,8 @@ pipeline {
     }
     stage('start-backend') {
       steps {
+        powershell(script: '.venv\Scripts\Activate.ps1', returnStdout: true, returnStatus: true)
+        powershell(script: 'pip install -r requirements.txt', returnStdout: true, returnStatus: true)
         powershell(script: 'python rest_api.py', returnStdout: true, returnStatus: true)
       }
     }
