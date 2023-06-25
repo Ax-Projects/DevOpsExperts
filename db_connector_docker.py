@@ -24,7 +24,6 @@ def db():
     conn.autocommit(True)
     return conn
 
-
 def check_table_exists():
     try:
         conn = db()
@@ -44,7 +43,7 @@ def check_table_exists():
             return False
     except pymysql.Error as e:
         conn.close()
-        return e
+        return {e}
 
 
 # Inserting data into table
@@ -118,8 +117,12 @@ def create_user(user_id: str, user_name: str):
         cursor.close()
         conn.close()
         return True
-    except pymysql.Error as e:
+    except Exception as e:
+        cursor.close()
+        conn.close()
         return {e}
+    # except pymysql.Error as e:
+    #     return {e}
 
 
 # Updating data in the table
@@ -134,6 +137,8 @@ def update_user(user_id: str, user_name: str):
         conn.close()
         return True
     except pymysql.Error as e:
+        cursor.close()
+        conn.close()
         return {e}
 
 
@@ -147,6 +152,8 @@ def delete_user(user_id: str):
         conn.close()
         return True
     except pymysql.Error as e:
+        cursor.close()
+        conn.close()
         return {e}
 
 
@@ -160,4 +167,6 @@ def drop_table():
         conn.close()
         return True
     except pymysql.Error as e:
+        cursor.close()
+        conn.close()
         return {e}
