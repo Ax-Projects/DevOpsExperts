@@ -24,6 +24,8 @@ pipeline {
     stage('start-db') {
       steps {
         powershell(script: 'docker-compose up -d mysql', returnStdout: true, returnStatus: true)
+        // waiting a bit for sql to be available
+        powershell 'sleep 10'
       }
     }
     stage('start-backend') {
