@@ -2,6 +2,7 @@ version: '3'
 services:
   restapi:
     build: .
+    image: amsiman/devopsproject:${IMAGE_TAG}
     environment:
       DBHOST: ${DBHOST}
       DBUSER: ${DBUSER}

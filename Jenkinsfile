@@ -56,10 +56,16 @@ pipeline {
         bat 'python clean_environment.py'
       }
     }
-    stage('build and push image') {
+    stage('docker build') {
       steps {
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          }
+        }
+    }
+    stage('docker push') {
+      steps {
+        script {
           docker.withRegistry('', registryCredential) {
             dockerImage.push() // push image to hub
             }
@@ -71,6 +77,7 @@ pipeline {
         }
       }
     }
+    
     stage('start-docker-compose'){
       steps {
         bat 'docker-compose up -d'

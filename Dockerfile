@@ -4,7 +4,7 @@ WORKDIR /app
 COPY rest_api.py requirements.txt clean_environment.py clean_db.py /app/
 COPY db_connector_docker.py /app/db_connector.py 
 
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
 
