@@ -75,9 +75,12 @@ pipeline {
     stage('docker build') {
       steps {
         script {
-          dockerImage = docker.build(env.registry + ":$BUILD_NUMBER")
+          dockerImage = docker.build( ${env.registry} + ":$BUILD_NUMBER")
+          dockerImage.inside {
+            sh 'python clean_db.py'
           }
         }
+      }
     }
     
     stage('start-docker-compose'){
