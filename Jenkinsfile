@@ -79,20 +79,6 @@ pipeline {
           }
         }
     }
-    stage('docker push') {
-      steps {
-        script {
-          docker.withRegistry('', registryCredential) {
-            dockerImage.push() // push image to hub
-            }
-          }
-        }
-      post {
-        always {
-          bat "docker rmi $registry:$BUILD_NUMBER" // delete the local image at the end
-        }
-      }
-    }
     
     stage('start-docker-compose'){
       steps {
@@ -111,6 +97,20 @@ pipeline {
         bat 'docker-compose stop restapi'
         bat 'docker-compose down'
         powershell 'Remove-Item -Recurse -Force .venv'
+      }
+    }
+    stage('docker push') {
+      steps {
+        script {
+          docker.withRegistry('', registryCredential) {
+            dockerImage.push() // push image to hub
+            }
+          }
+        }
+      post {
+        always {
+          bat "docker rmi $registry:$BUILD_NUMBER" // delete the local image at the end
+        }
       }
     }
   }
