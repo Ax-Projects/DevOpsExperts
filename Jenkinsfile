@@ -87,8 +87,21 @@ pipeline {
     }
 
     stage('clean-DB-docker') {
-      step([$class: 'DockerComposeBuilder', dockerComposeFile: 'docker-compose.yaml', option: [$class: 'ExecuteCommandInsideContainer', command: 'python clean_db.py', index: 1, privilegedMode: false, service: 'dockerImage', workDir: ''], useCustomDockerComposeFile: false])
+      steps {
+        script {
+          dockerImage.inside {
+            sh 'python clean_db.py'
+          }
+        }
+      }
     }
+
+    stage('clean-DB-test-again') {
+      steps {
+        bat(script: 'python clean_db.py', returnStatus: true, returnStdout: true)
+      }
+    }
+
     stage('run-docker-test') {
       steps {
         bat 'python docker_backend_testing.py'
