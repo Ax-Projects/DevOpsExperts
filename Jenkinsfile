@@ -83,6 +83,7 @@ pipeline {
     stage('start-docker-compose'){
       steps {
         bat 'docker-compose up -d'
+        powershell 'sleep 10'
       }
     }
 
