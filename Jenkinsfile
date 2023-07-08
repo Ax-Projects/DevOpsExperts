@@ -64,7 +64,7 @@ pipeline {
     }
     stage('stop-DC-db') {
       steps {
-        powershell(script: 'docker-compose down', returnStdout: true, returnStatus: true)
+        powershell(script: 'docker-compose down 2>$nul', returnStdout: true, returnStatus: true)
       }
     }
     stage('stop-restapi') {
