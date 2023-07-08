@@ -86,15 +86,15 @@ pipeline {
       }
     }
 
-    stage('clean-DB-docker') {
-      steps {
-        script {
-          dockerImage.inside {
-            sh 'python clean_db.py'
-          }
-        }
-      }
-    }
+    // stage('clean-DB-docker') {
+    //   steps {
+    //     script {
+    //       dockerImage.inside {
+    //         sh 'python clean_db.py'
+    //       }
+    //     }
+    //   }
+    // }
 
     stage('clean-DB-test-again') {
       steps {
