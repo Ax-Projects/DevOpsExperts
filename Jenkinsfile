@@ -86,6 +86,11 @@ pipeline {
       }
     }
 
+    stage('clean-DB-docker') {
+      steps {
+        bat(script: 'python clean_db.py', returnStatus: true, returnStdout: true)
+      }
+    }
     stage('run-docker-test') {
       steps {
         bat 'python docker_backend_testing.py'
