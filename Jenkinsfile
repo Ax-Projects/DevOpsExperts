@@ -75,8 +75,7 @@ pipeline {
     stage('docker build') {
       steps {
         script {
-          imageName = registry + ":$BUILD_NUMBER"
-          dockerImage = docker.build( imageName )
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
           dockerImage.inside {
             sh 'python clean_db.py'
           }
