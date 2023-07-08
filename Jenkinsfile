@@ -22,6 +22,12 @@ pipeline {
         git branch: 'jenking-pipeline', url: 'https://github.com/Ax-Projects/DevOpsExperts.git'
       }
     }
+    stage('set-docker-imagetag') {
+      steps {
+        // powershell(script: '"IMAGE_TAG=${BUILD_NUMBER}" | Add-Content -Path ./.env', returnStdout: true, returnStatus: true)
+        powershell(script: "Add-Content -Path ./.env -Value (IMAGE_TAG=${BUILD_NUMBER})", returnStdout: true, returnStatus: true)
+      }
+    }
     stage('create-venv') {
       steps {
         powershell(script: 'python -m venv .venv', returnStdout: true, returnStatus: true)
