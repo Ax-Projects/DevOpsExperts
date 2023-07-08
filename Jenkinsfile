@@ -76,9 +76,6 @@ pipeline {
       steps {
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
-          dockerImage.inside {
-            sh 'python clean_db.py'
-          }
         }
       }
     }
@@ -91,7 +88,11 @@ pipeline {
 
     stage('clean-DB-docker') {
       steps {
-        bat(script: 'python clean_db.py', returnStatus: true, returnStdout: true)
+        script {
+          dockerImage.inside {
+            sh 'python clean_db.py'
+          }
+        }
       }
     }
     stage('run-docker-test') {
