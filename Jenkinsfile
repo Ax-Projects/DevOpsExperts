@@ -4,13 +4,19 @@ pipeline {
       label 'laptop'
     }
   }
+  triggers {
+    pollSCM 'H/30 * * * *'
+  }
+  options{
+    buildDiscarder(logRotator(numToKeepStr: '20', daysToKeepStr: '5'))
+    timestamps()
+  }
   environment {
     registry = 'amsiman/devopsproject'
-    registryCredential = 'dockerhub-login'
+    registryCredential = 'dockerhub-login' // Make sure to have DockerHub credentials available in the Jenkins Server Credentials Manager
     dockerimage = ''
   }
   stages {
-    // add stage to start mysql container
     stage('pull repo') {
       steps {
         git branch: 'jenking-pipeline', url: 'https://github.com/Ax-Projects/DevOpsExperts.git'
