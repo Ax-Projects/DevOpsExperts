@@ -66,7 +66,7 @@ pipeline {
       steps {
         powershell(script: 'docker-compose down', returnStdout: true, returnStatus: true)
       }
-
+    }
     stage('stop-restapi') {
       steps {
         bat 'python clean_environment.py'
