@@ -25,7 +25,7 @@ pipeline {
     stage('set-docker-imagetag') {
       steps {
         // powershell(script: '"IMAGE_TAG=${BUILD_NUMBER}" | Add-Content -Path ./.env', returnStdout: true, returnStatus: true)
-        bat(script: "echo IMAGE_TAG=${BUILD_NUMBER} >> .env", returnStdout: true, returnStatus: true)
+        bat(script: "(echo. & echo IMAGE_TAG=${BUILD_NUMBER}) >> .env", returnStdout: true, returnStatus: true)
       }
     }
     stage('create-venv') {
