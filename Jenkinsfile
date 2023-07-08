@@ -75,7 +75,7 @@ pipeline {
     stage('docker build') {
       steps {
         script {
-          dockerImage = docker.build( ${env.registry} + ":$BUILD_NUMBER")
+          dockerImage = docker.build( "$registry" + ":$BUILD_NUMBER")
           dockerImage.inside {
             sh 'python clean_db.py'
           }
@@ -110,7 +110,7 @@ pipeline {
     stage('docker push') {
       steps {
         script {
-          docker.withRegistry(registry, registryCredential) {
+          docker.withRegistry('', registryCredential) {
             dockerImage.push() // push image to hub
             }
           }
