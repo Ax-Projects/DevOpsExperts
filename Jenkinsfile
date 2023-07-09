@@ -112,7 +112,7 @@ pipeline {
       steps {
         // bat "echo ${dockerImage}"
         script {
-          docker.withRegistry( '', DOCKER_CERT_PATH ) {
+          docker.withRegistry( '', 'dockerhub-loginCreds' ) {
             dockerImage.push() // push image to hub
             }
           }
