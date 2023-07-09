@@ -16,7 +16,8 @@ pipeline {
   }
   environment {
     registry = 'amsiman/devopsproject'
-    DOCKER_CERT_PATH = credentials('dockerhub-loginCreds') // Make sure to have DockerHub credentials available in the Jenkins Server Credentials Manager
+    DOCKER_CERT_PATH = credentials('docker-token') // Make sure to have DockerHub credentials available in the Jenkins Server Credentials Manager
+    DOCKER_CREDS = credentials('docker-token') // Make sure to have DockerHub credentials available in the Jenkins Server Credentials Manager
     dockerImage = ''
   }
   stages {
@@ -81,6 +82,11 @@ pipeline {
         }
       }
     }
+    stage('docker login') {
+      steps {
+        bat 'docker login -u $DOCKER_CREDS_USR --password $DOCKER_CREDS_PSW'
+      }
+    }
     
     // stage('start-docker-compose'){
     //   steps {
@@ -113,11 +119,11 @@ pipeline {
         script {
           dockerImage.push() // push image to hub
         }
-        script {
-          docker.withRegistry('', 'dockerhub-loginCreds' ){
-            dockerImage.push() // push image to hub
-          }
-        }
+        // script {
+        //   docker.withRegistry('', 'dockerhub-loginCreds' ){
+        //     dockerImage.push() // push image to hub
+        //   }
+        // }
       }
       post {
         always {
