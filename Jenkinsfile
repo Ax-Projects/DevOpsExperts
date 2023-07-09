@@ -112,9 +112,7 @@ pipeline {
       steps {
         // bat "echo ${dockerImage}"
         script {
-          docker.withRegistry( '', 'dockerhub-loginCreds' ) {
-            dockerImage.push() // push image to hub
-            }
+          dockerImage.push() // push image to hub
           }
         }
       post {
