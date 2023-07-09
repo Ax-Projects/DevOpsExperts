@@ -75,16 +75,16 @@ pipeline {
     //     bat 'python clean_environment.py'
     //   }
     // }
+    stage('docker login') {
+      steps {
+        bat 'echo $DOCKER_CREDS_PSW | docker login -u $DOCKER_CREDS_USR --password-stdin'
+      }
+    }
     stage('docker build') {
       steps {
         script {
           dockerImage = docker.build( registry + ":$BUILD_NUMBER")
         }
-      }
-    }
-    stage('docker login') {
-      steps {
-        bat 'echo "$DOCKER_CREDS_PSW" | docker login -u $DOCKER_CREDS_USR --password-stdin'
       }
     }
     
