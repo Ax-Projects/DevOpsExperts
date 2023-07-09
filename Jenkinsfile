@@ -119,7 +119,7 @@ pipeline {
     stage('docker push') {
       steps {
         script {
-          docker.withRegistry('', registryCredential) {
+          docker.withRegistry('', 'registryCredential') {
             dockerImage.push() // push image to hub
             }
           }
