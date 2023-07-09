@@ -13,7 +13,7 @@ pipeline {
   }
   environment {
     registry = 'amsiman/devopsproject'
-    DOCKER_CERT_PATH = credentials('dockerhub-login') // Make sure to have DockerHub credentials available in the Jenkins Server Credentials Manager
+    DOCKER_CERT_PATH = 'dockerhub-login' // Make sure to have DockerHub credentials available in the Jenkins Server Credentials Manager
     dockerimage = ''
   }
   stages {
