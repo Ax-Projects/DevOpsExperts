@@ -4,9 +4,6 @@ pipeline {
       label 'laptop'
     }
   }
-  tools {
-    'org.jenkinsci.plugins.docker.commons.tools.DockerTool' '434.v3dc53576ec32'
-  }
   triggers {
     pollSCM 'H/30 * * * *'
   }
@@ -113,12 +110,6 @@ pipeline {
     // }
     stage('docker push') {
       steps {
-        // bat "echo ${dockerImage}"
-        script {
-          docker.withRegistry('', DOCKER_CERT_PATH ){
-            dockerImage.push() // push image to hub
-          }
-        }
         script {
           docker.withRegistry('', 'dockerhub-loginCreds' ){
             dockerImage.push() // push image to hub
