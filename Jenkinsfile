@@ -5,7 +5,7 @@ pipeline {
     }
   }
   tools {
-    'org.jenkinsci.plugins.docker.commons.tools.DockerTool'
+    'org.jenkinsci.plugins.docker.commons.tools.DockerTool' '434.v3dc53576ec32'
   }
   triggers {
     pollSCM 'H/30 * * * *'
