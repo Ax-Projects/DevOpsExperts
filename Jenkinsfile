@@ -120,7 +120,7 @@ pipeline {
       steps {
         // bat "echo ${dockerImage}"
         script {
-          docker.withRegistry( '', ${registryCredential} ) {
+          docker.withRegistry( '', env.registryCredential ) {
             dockerImage.push() // push image to hub
             }
           }
