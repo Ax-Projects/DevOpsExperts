@@ -4,6 +4,9 @@ pipeline {
       label 'laptop'
     }
   }
+  tools {
+    'org.jenkinsci.plugins.docker.commons.tools.DockerTool' '18.09'
+  }
   triggers {
     pollSCM 'H/30 * * * *'
   }
@@ -17,7 +20,7 @@ pipeline {
   environment {
     registry = 'amsiman/devopsproject'
     DOCKER_CERT_PATH = credentials('dockerhub-loginCreds') // Make sure to have DockerHub credentials available in the Jenkins Server Credentials Manager
-    dockerimage = ''
+    dockerImage = ''
   }
   stages {
     stage('pull repo') {
