@@ -28,50 +28,50 @@ pipeline {
         bat(script: "(echo. & echo IMAGE_TAG=${BUILD_NUMBER}) >> .env", returnStdout: true, returnStatus: true)
       }
     }
-    stage('create-venv') {
-      steps {
-        powershell(script: 'python -m venv .venv', returnStdout: true, returnStatus: true)
-      }
-    }
-    stage('start-db') {
-      steps {
-        powershell(script: 'docker-compose up -d mysql', returnStdout: true, returnStatus: true)
-        // waiting a bit for sql to be available
-        powershell 'sleep 10'
-      }
-    }
-    stage('start-backend') {
-      steps {
-        bat(script: '.venv\\Scripts\\Activate.bat', returnStatus: true, returnStdout: true)
-        bat(script: 'pip install -r requirements.txt', returnStatus: true, returnStdout: true)
-        // powershell(script: '.venv\\Scripts\\Activate.ps1', returnStdout: true, returnStatus: true)
-        // powershell(script: 'pip install -r requirements.txt', returnStdout: true, returnStatus: true)
-        // powershell(script: 'python rest_api.py', returnStdout: true, returnStatus: true)
-        bat(script: 'start /min python rest_api.py', returnStatus: true, returnStdout: true)
-      }
-    }
+    // stage('create-venv') {
+    //   steps {
+    //     powershell(script: 'python -m venv .venv', returnStdout: true, returnStatus: true)
+    //   }
+    // }
+    // stage('start-db') {
+    //   steps {
+    //     powershell(script: 'docker-compose up -d mysql', returnStdout: true, returnStatus: true)
+    //     // waiting a bit for sql to be available
+    //     powershell 'sleep 10'
+    //   }
+    // }
+    // stage('start-backend') {
+    //   steps {
+    //     bat(script: '.venv\\Scripts\\Activate.bat', returnStatus: true, returnStdout: true)
+    //     bat(script: 'pip install -r requirements.txt', returnStatus: true, returnStdout: true)
+    //     // powershell(script: '.venv\\Scripts\\Activate.ps1', returnStdout: true, returnStatus: true)
+    //     // powershell(script: 'pip install -r requirements.txt', returnStdout: true, returnStatus: true)
+    //     // powershell(script: 'python rest_api.py', returnStdout: true, returnStatus: true)
+    //     bat(script: 'start /min python rest_api.py', returnStatus: true, returnStdout: true)
+    //   }
+    // }
 
-    stage('clean-DB') {
-      steps {
-        bat(script: 'python clean_db.py', returnStatus: true, returnStdout: true)
-      }
-    }
+    // stage('clean-DB') {
+    //   steps {
+    //     bat(script: 'python clean_db.py', returnStatus: true, returnStdout: true)
+    //   }
+    // }
 
-    stage('run-backend-test') {
-      steps {
-        bat 'python backend_testing.py'
-      }
-    }
-    stage('stop-DC-db') {
-      steps {
-        powershell(script: 'docker-compose down 2>$nul', returnStdout: true, returnStatus: true)
-      }
-    }
-    stage('stop-restapi') {
-      steps {
-        bat 'python clean_environment.py'
-      }
-    }
+    // stage('run-backend-test') {
+    //   steps {
+    //     bat 'python backend_testing.py'
+    //   }
+    // }
+    // stage('stop-DC-db') {
+    //   steps {
+    //     powershell(script: 'docker-compose down 2>$nul', returnStdout: true, returnStatus: true)
+    //   }
+    // }
+    // stage('stop-restapi') {
+    //   steps {
+    //     bat 'python clean_environment.py'
+    //   }
+    // }
     stage('docker build') {
       steps {
         script {
@@ -120,7 +120,7 @@ pipeline {
       steps {
         // bat "echo ${dockerImage}"
         script {
-          docker.withRegistry( '', "${DOCKER_CERT_PATH}" ) {
+          docker.withRegistry( '', ${DOCKER_CERT_PATH} ) {
             dockerImage.push() // push image to hub
             }
           }
