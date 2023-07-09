@@ -110,9 +110,11 @@ pipeline {
     // }
     stage('docker push') {
       steps {
-        script {
-          docker.withRegistry('', 'dockerhub-loginCreds' ){
-            dockerImage.push() // push image to hub
+        step {
+          script {
+            docker.withRegistry('', 'dockerhub-loginCreds' ){
+              dockerImage.push() // push image to hub
+            }
           }
         }
         script {
