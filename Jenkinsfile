@@ -7,16 +7,16 @@ pipeline {
   triggers {
     pollSCM 'H/30 * * * *'
   }
-  parameters {
-  credentials credentialType: 'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl', defaultValue: 'dockerhub-loginCreds', name: 'docker-login', required: false
-  }
+  // parameters {
+  // credentials credentialType: 'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl', defaultValue: 'dockerhub-loginCreds', name: 'docker-login', required: false
+  // }
   options{
     buildDiscarder(logRotator(numToKeepStr: '20', daysToKeepStr: '5'))
     timestamps()
   }
   environment {
     registry = 'amsiman/devopsproject'
-    DOCKER_CERT_PATH = 'dockerhub-loginCreds' // Make sure to have DockerHub credentials available in the Jenkins Server Credentials Manager
+    DOCKER_CERT_PATH = credentials('dockerhub-loginCreds') // Make sure to have DockerHub credentials available in the Jenkins Server Credentials Manager
     dockerimage = ''
   }
   stages {
