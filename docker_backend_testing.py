@@ -2,8 +2,8 @@
 import requests
 
 # Setting some variables for easy testing
-userName = "backend test user"
-userID = "5"
+userName = "docker test user"
+userID = "50"
 url = f"http://localhost:5000/users/{userID}"
 jsonBody = {"user_name": f"{userName}"}
 

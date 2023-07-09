@@ -1,3 +1,6 @@
 __pycache__
 backend.py
 frontend.py
+.vscode/
+.mypy*
+Jenkinsfile.bak

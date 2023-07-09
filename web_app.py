@@ -8,6 +8,11 @@ htmlHelpFile = (
     "C:\\Users\\Orr-Dev\\Documents\\DevOpsExperts\\Project-Part1\\web_app.html"
 )
 
+# Routing and error handling in flask: https://flask.palletsprojects.com/en/2.1.x/quickstart/#redirects-and-errors
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return "The route you entered doesn't exist, 404", 404
 
 @app.route("/", methods=["GET"])
 def root():
