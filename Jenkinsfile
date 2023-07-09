@@ -7,13 +7,16 @@ pipeline {
   triggers {
     pollSCM 'H/30 * * * *'
   }
+  parameters {
+  credentials credentialType: 'com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl', defaultValue: 'dockerhub-loginCreds', name: 'docker-login', required: false
+  }
   options{
     buildDiscarder(logRotator(numToKeepStr: '20', daysToKeepStr: '5'))
     timestamps()
   }
   environment {
     registry = 'amsiman/devopsproject'
-    DOCKER_CERT_PATH = 'dockerhub-login' // Make sure to have DockerHub credentials available in the Jenkins Server Credentials Manager
+    DOCKER_CERT_PATH = 'dockerhub-loginCreds' // Make sure to have DockerHub credentials available in the Jenkins Server Credentials Manager
     dockerimage = ''
   }
   stages {
@@ -24,7 +27,6 @@ pipeline {
     }
     stage('set-docker-imagetag') {
       steps {
-        // powershell(script: '"IMAGE_TAG=${BUILD_NUMBER}" | Add-Content -Path ./.env', returnStdout: true, returnStatus: true)
         bat(script: "(echo. & echo IMAGE_TAG=${BUILD_NUMBER}) >> .env", returnStdout: true, returnStatus: true)
       }
     }
@@ -80,47 +82,37 @@ pipeline {
       }
     }
     
-    stage('start-docker-compose'){
-      steps {
-        bat 'docker-compose up -d'
-        powershell 'sleep 20'
-      }
-    }
-
-    // stage('clean-DB-docker') {
+    // stage('start-docker-compose'){
     //   steps {
-    //     script {
-    //       dockerImage.inside {
-    //         sh 'python clean_db.py'
-    //       }
-    //     }
+    //     bat 'docker-compose up -d'
+    //     powershell 'sleep 20'
     //   }
     // }
 
-    stage('clean-DB-test-again') {
-      steps {
-        bat(script: 'python clean_db.py', returnStatus: true, returnStdout: true)
-      }
-    }
+    // stage('clean-DB-test-again') {
+    //   steps {
+    //     bat(script: 'python clean_db.py', returnStatus: true, returnStdout: true)
+    //   }
+    // }
 
-    stage('run-docker-test') {
-      steps {
-        bat 'python docker_backend_testing.py'
-      }
-    }
+    // stage('run-docker-test') {
+    //   steps {
+    //     bat 'python docker_backend_testing.py'
+    //   }
+    // }
 
-    stage('stop-servers') {
-      steps {
-        bat 'docker-compose stop restapi'
-        bat 'docker-compose down'
-        // powershell 'Remove-Item -Recurse -Force .venv'
-      }
-    }
+    // stage('stop-servers') {
+    //   steps {
+    //     bat 'docker-compose stop restapi'
+    //     bat 'docker-compose down'
+    //     // powershell 'Remove-Item -Recurse -Force .venv'
+    //   }
+    // }
     stage('docker push') {
       steps {
         // bat "echo ${dockerImage}"
         script {
-          docker.withRegistry( '', ${DOCKER_CERT_PATH} ) {
+          docker.withRegistry( '', DOCKER_CERT_PATH ) {
             dockerImage.push() // push image to hub
             }
           }
