@@ -77,7 +77,7 @@ pipeline {
     // }
     stage('docker login') {
       steps {
-        bat "echo $DOCKER_CREDS_PSW | docker login -u $DOCKER_CREDS_USR --password-stdin"
+        bat "docker login -u $DOCKER_CREDS_USR -p $DOCKER_CREDS_PSW"
       }
     }
     stage('docker build') {
