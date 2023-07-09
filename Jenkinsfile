@@ -117,8 +117,10 @@ pipeline {
             }
           }
         }
-        script {
-          dockerImage.push() // push image to hub
+        step {
+          script {
+            dockerImage.push() // push image to hub
+            }
           }
         }
       post {
