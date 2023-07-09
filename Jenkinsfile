@@ -118,8 +118,9 @@ pipeline {
     }
     stage('docker push') {
       steps {
+        bat "echo ${dockerImage}"
         script {
-          docker.withRegistry( '', registryCredential ) {
+          docker.withRegistry( '', 'dockerhub-login' ) {
             dockerImage.push() // push image to hub
             }
           }
