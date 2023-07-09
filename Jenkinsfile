@@ -110,19 +110,15 @@ pipeline {
     // }
     stage('docker push') {
       steps {
-        step {
-          script {
-            docker.withRegistry('', 'dockerhub-loginCreds' ){
-              dockerImage.push() // push image to hub
-            }
-          }
-        }
-        step {
-          script {
+        script {
+          docker.withRegistry('', 'dockerhub-loginCreds' ){
             dockerImage.push() // push image to hub
-            }
           }
         }
+        script {
+          dockerImage.push() // push image to hub
+        }
+      }
       post {
         always {
           bat "docker rmi $registry:$BUILD_NUMBER" // delete the local image at the end
